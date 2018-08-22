@@ -8,6 +8,6 @@
 
 Because the gradients of the loss function don't admit analytic roots or simple smoothness calculations, multiple local minimizers are found using accelerated gradient descent with backtracking. The coefficients producing the lowest cost is returned.
 
-<img src="docs/example.png" alt="example" width="512"/>
+<img src="docs/example.png" alt="example" width="768"/>
 
 The main cost of running `logisticfit.m` is the elementwise exponential `exp()` from MATLAB, so some optimizations were made to minimize the number of computations made with `exp()`.
