@@ -91,11 +91,17 @@ end
 w = repmat(w, [1 trials(1)]) + trials(2)*randn(size(w,1), trials(1));
 b = repmat(b, [1 trials(1)]) + trials(2)*randn(1, trials(1));
 
+costs = zeros(niter+1,trials(1));
+[costs(1,:), r, yhat, EXP] = cost(X,y,w,b);
+j = sign(sum(sum(yhat-repmat(y,[1, trials(1)]))));
+if j < 0
+    w = -w;  b = -b;
+    [costs(1,:), r, yhat, EXP] = cost(X,y,w,b);
+end
+
 % Initialize loop and iterate
 t = t0 * ones(1,trials(1));
-costs = zeros(niter+1,trials(1));
 smlsteps = zeros(niter,trials(1));
-[costs(1,:), r, yhat, EXP] = cost(X,y,w,b);
 w1 = w;  b1 = b;
 gb = zeros(1,trials(1)); %#ok<PREALL>
 for i = 1:niter
