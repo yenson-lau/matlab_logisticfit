@@ -59,6 +59,9 @@ function [w, costs, yhat, info] = logisticfit(X, y, w0, params)
 %     INFO: struct.  Contains W and YHAT across *all* trials and
 %       backtracking information.
 %
+%  Written by Yenson Lau: 
+%   https://github.com/yenson-lau/matlab_logisticfit.git
+%
 
 % Process prameters
 niter = 500;
