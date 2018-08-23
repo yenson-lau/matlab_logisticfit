@@ -40,7 +40,7 @@ function [w, costs, yhat, info] = logisticfit(X, y, w0, params)
 %       'niter': int.  Number of iterations to run for.
 %
 %       'trials': [int float].  Number of trials to take and additive noise 
-%       std to W0 for each trial, respectively. [20 1e-1] by default.       
+%       std to W0 for each trial, respectively. [100 5] by default.       
 %
 %       't0': float.  Initial step size.
 %
@@ -65,8 +65,8 @@ function [w, costs, yhat, info] = logisticfit(X, y, w0, params)
 
 % Process prameters
 niter = 500;
-getb = true;
-trials = [20 1e-1];
+getb = false;
+trials = [100 5];
 alph = 0.99;
 btparams = [1e-1 1e-50];
 t0 = 1;
@@ -91,9 +91,10 @@ end
 w = repmat(w, [1 trials(1)]) + trials(2)*randn(size(w,1), trials(1));
 b = repmat(b, [1 trials(1)]) + trials(2)*randn(1, trials(1));
 
+% Detect the correct sign for the coefficients
 costs = zeros(niter+1,trials(1));
 [costs(1,:), r, yhat, EXP] = cost(X,y,w,b);
-j = sign(sum(sum(yhat-repmat(y,[1, trials(1)]))));
+j = sign(sum(sum( (yhat-0.5).*repmat(y-0.5,[1, trials(1)]) )));
 if j < 0
     w = -w;  b = -b;
     [costs(1,:), r, yhat, EXP] = cost(X,y,w,b);
